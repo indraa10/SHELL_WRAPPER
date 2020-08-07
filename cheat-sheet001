@@ -1,0 +1,28 @@
+1.------------------------------------ check if 1st charecter of string is 'x' or not -----------------------------
+X=`echo $i | cut -C1-1`
+2. -------------------------------------check if last 3 charecter of string is 'mgr' or not ------------------------
+MGR=`echo $i | grep '...$'`
+
+--------------------------satisfy both the condition ---------------------------------------------------------------
+if [[ $X == 'x' && $MGR == 'mgr ]] ; then
+
+3. ---------------------------------have list of VM and command to execute from jumphost ----------------------------
+#initialize variable to keep the host details in a single text file
+host=/<path_to_input_file>/host.txt
+#initialize a variable to execute command in each node mentioned in the host file
+cmd='<command to execute in each node from jumphost>'
+# using for loop to iterate and get each vm one after one
+for i in `cat $host` ; do
+#ssh to particular node and execute the command and same to capture in log file
+ssh -nT $i $cmd >> /<log_path>/capture.log
+#end the loop
+done
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. ---------------------------- have list of VM and list of DB , to check each DB in all the VM -----------------------
+while read VM ; do
+  while read DB ; do
+    ssh -nT $VM " grep -Ri $DB /<DB name path list> "
+  done</<path to DB list>
+done</<path to VM list>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
